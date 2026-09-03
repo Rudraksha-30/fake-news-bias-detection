@@ -77,7 +77,7 @@ def combine_stratified():
               f"(REAL: {(wel_balanced['label']==0).sum()} | "
               f"FAKE: {(wel_balanced['label']==1).sum()})")
 
-        # Combine and shuffle
+    
         combined = pd.concat([liar_balanced, wel_balanced], ignore_index=True)
         combined = combined.sample(frac=1, random_state=42).reset_index(drop=True)
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fake News Detector</title>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <h1>🔍 Fake News Detector</h1>
+      <p class="subtitle">Powered by DistilBERT · LIAR + WELFake datasets · 80% accuracy</p>
+    </header>
+
+    <!-- Input -->
+    <div class="card">
+      <label for="newsText">Paste news text or headline below:</label>
+      <textarea id="newsText" rows="6"
+        placeholder="e.g. Scientists confirm vaccines cause autism in children..."></textarea>
+      <div class="char-count"><span id="charCount">0</span> / 5000</div>
+      <button id="analyzeBtn" onclick="analyze()">Analyze Text</button>
+    </div>
+
+    <!-- Result -->
+    <div class="card result-card hidden" id="resultCard">
+      <div class="verdict" id="verdict"></div>
+      <div class="confidence" id="confidenceText"></div>
+
+      <!-- Chart -->
+      <div class="chart-wrap">
+        <canvas id="probChart" width="300" height="300"></canvas>
+      </div>
+
+      <!-- Probability Bars -->
+      <div class="bars">
+        <div class="bar-row">
+          <span class="bar-label">🟢 REAL</span>
+          <div class="bar-bg">
+            <div class="bar-fill real" id="realBar"></div>
+          </div>
+          <span class="bar-pct" id="realPct"></span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">🔴 FAKE</span>
+          <div class="bar-bg">
+            <div class="bar-fill fake" id="fakeBar"></div>
+          </div>
+          <span class="bar-pct" id="fakePct"></span>
+        </div>
+      </div>
+
+      <button class="reset-btn" onclick="reset()">Analyze Another</button>
+    </div>
+
+    <!-- Error -->
+    <div class="card error-card hidden" id="errorCard">
+      <p id="errorMsg"></p>
+    </div>
+
+  </div>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>

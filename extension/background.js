@@ -1,13 +1,15 @@
-// Create right-click context menu on install
+// ── Context menu setup ────────────────────────────────────
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id:       "checkFakeNews",
-    title:    "🔍 Check with Fake News Detector",
-    contexts: ["selection"]   // only shows when text is selected
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id:       "checkFakeNews",
+      title:    "🔍 Check with Fake News Detector",
+      contexts: ["selection"]
+    });
   });
 });
 
-// When user clicks the context menu
+// ── Context menu click handler ────────────────────────────
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId !== "checkFakeNews") return;
 
@@ -20,7 +22,6 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     return;
   }
 
-  // Send loading state to content script
   chrome.tabs.sendMessage(tab.id, { type: "SHOW_LOADING" });
 
   try {
@@ -31,6 +32,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     });
 
     const data = await response.json();
+    data.input_text = selectedText;
     chrome.tabs.sendMessage(tab.id, { type: "SHOW_RESULT", data });
 
   } catch (err) {
@@ -39,4 +41,20 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       error: "Could not connect to API. Make sure Flask server is running."
     });
   }
+});
+
+// ── Handle API requests from content.js ──────────────────
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg.type !== "API_REQUEST") return;
+
+  fetch(`http://localhost:5000${msg.endpoint}`, {
+    method:  "POST",
+    headers: { "Content-Type": "application/json" },
+    body:    JSON.stringify(msg.body)
+  })
+  .then(res  => res.json())
+  .then(data => sendResponse({ data }))
+  .catch(err => sendResponse({ error: err.message }));
+
+  return true; // keeps message channel open for async response
 });

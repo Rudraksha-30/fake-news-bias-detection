@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-10-03T00:38:23.851115",
+    "text": "Trump is the new president of USA",
+    "predicted_label": "FAKE",
+    "correct_label": "REAL",
+    "confidence": 99.96,
+    "is_correct": false
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-10-03T00:41:01.729292",
+    "text": "Trump is the new president of USA",
+    "predicted_label": "FAKE",
+    "correct_label": "REAL",
+    "confidence": 99.96,
+    "is_correct": false
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-10-10T19:27:20.836550",
+    "text": "U.S. lifts sanctions on sale of Russian diesel in global markets",
+    "predicted_label": "REAL",
+    "correct_label": "REAL",
+    "confidence": 97.28,
+    "is_correct": true
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-10-10T19:38:22.399710",
+    "text": "U.S. lifts sanctions on sale of Russian diesel in global markets",
+    "predicted_label": "REAL",
+    "correct_label": "REAL",
+    "confidence": 97.28,
+    "is_correct": true
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-10-10T19:52:30.440274",
+    "text": "Trump slams Norway for not awarding him Nobel Peace Prize",
+    "predicted_label": "FAKE",
+    "correct_label": "REAL",
+    "confidence": 97.26,
+    "is_correct": false
+  },
+  {
+    "id": 6,
+    "timestamp": "2026-10-10T19:55:08.671011",
+    "text": "Neymar retired from international football",
+    "predicted_label": "REAL",
+    "correct_label": "REAL",
+    "confidence": 87.76,
+    "is_correct": true
+  }
+]

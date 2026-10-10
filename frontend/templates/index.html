@@ -57,6 +57,34 @@
       <button class="reset-btn" onclick="reset()">Analyze Another</button>
     </div>
 
+    <!-- Feedback Section -->
+<div class="feedback-section" id="feedbackSection">
+  <p class="feedback-label">Was this prediction correct?</p>
+  <div class="feedback-btns">
+    <button class="fb-btn correct"   onclick="sendFeedback('correct')">👍 Yes</button>
+    <button class="fb-btn incorrect" onclick="sendFeedback('incorrect')">👎 No</button>
+  </div>
+  <div class="feedback-msg hidden" id="feedbackMsg"></div>
+
+  <!-- Correction dropdown - shown only on No -->
+  <div class="correction hidden" id="correctionDiv">
+    <p>What should it be?</p>
+    <div class="correction-btns">
+      <button onclick="submitCorrection('REAL')">🟢 REAL</button>
+      <button onclick="submitCorrection('FAKE')">🔴 FAKE</button>
+      <button onclick="submitCorrection('UNCERTAIN')">🟡 UNCERTAIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- Fact Check Section -->
+<div class="factcheck-section" id="factCheckSection">
+  <button class="factcheck-btn" onclick="runFactCheck()">
+    🔎 Search Fact-Check Database
+  </button>
+  <div id="factCheckResults"></div>
+</div>
+
     <!-- Error -->
     <div class="card error-card hidden" id="errorCard">
       <p id="errorMsg"></p>

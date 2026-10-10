@@ -1,3 +1,8 @@
+import sys
+import os
+sys.path.append(os.path.dirname(__file__))
+from fact_check import search_fact_check
+from feedback   import save_feedback, get_feedback_stats
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -91,6 +96,42 @@ def predict_route():
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({"status": "healthy", "device": str(DEVICE)}), 200
+
+
+@app.route("/fact-check", methods=["POST"])
+def fact_check_route():
+    data = request.get_json()
+    if not data or "text" not in data:
+        return jsonify({"error": "Missing 'text' field"}), 400
+
+    results = search_fact_check(data["text"])
+    return jsonify(results), 200
+
+
+@app.route("/feedback", methods=["POST"])
+def feedback_route():
+    data = request.get_json()
+    required = ["text", "predicted_label", "correct_label", "confidence"]
+
+    if not data or not all(k in data for k in required):
+        return jsonify({"error": f"Missing fields. Required: {required}"}), 400
+
+    if data["correct_label"] not in ["REAL", "FAKE", "UNCERTAIN"]:
+        return jsonify({"error": "correct_label must be REAL, FAKE, or UNCERTAIN"}), 400
+
+    entry = save_feedback(
+        text=data["text"],
+        predicted_label=data["predicted_label"],
+        correct_label=data["correct_label"],
+        confidence=data["confidence"]
+    )
+    return jsonify({"message": "Feedback saved!", "entry": entry}), 200
+
+
+@app.route("/feedback/stats", methods=["GET"])
+def feedback_stats_route():
+    stats = get_feedback_stats()
+    return jsonify(stats), 200
 
 # ── Run ───────────────────────────────────────────────────
 if __name__ == "__main__":
